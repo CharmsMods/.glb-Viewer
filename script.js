@@ -15,6 +15,30 @@ let glbViewerCloseButton; // Renamed for clarity
 let initialWarningModal;
 let warningCloseButton;
 
+// Helper function to reliably copy text to clipboard using document.execCommand
+function copyTextToClipboard(text) {
+    let textarea = document.createElement('textarea');
+    textarea.value = text;
+    // Make the textarea invisible and outside the viewport
+    textarea.style.position = 'fixed';
+    textarea.style.left = '-9999px';
+    textarea.style.top = '-9999px';
+    document.body.appendChild(textarea);
+    textarea.focus();
+    textarea.select();
+    try {
+        const successful = document.execCommand('copy');
+        if (successful) {
+            console.log('Text copied successfully!');
+        } else {
+            console.warn('Copy command was unsuccessful.');
+        }
+    } catch (err) {
+        console.error('Error copying text:', err);
+    }
+    document.body.removeChild(textarea);
+}
+
 // Card Creation
 function createAndAppendCard(folder, filename, type) {
     // Create main card element
@@ -53,8 +77,7 @@ function createAndAppendCard(folder, filename, type) {
         folderNumberButton.textContent = `Folder: ${folder}`; // Display the folder name
         folderNumberButton.onclick = (event) => {
              event.stopPropagation(); // Prevent card click event
-             // Using document.execCommand('copy') for clipboard due to iframe restrictions
-             document.execCommand('copy', false, folder);
+             copyTextToClipboard(folder); // Use the new helper function
              // Provide visual feedback
              folderNumberButton.textContent = 'Copied!';
              setTimeout(() => {
@@ -86,8 +109,7 @@ function createAndAppendCard(folder, filename, type) {
         copyFolderButton.textContent = 'Copy Folder';
         copyFolderButton.onclick = (event) => {
             event.stopPropagation(); // Prevent card click event
-            // Using document.execCommand('copy') for clipboard due to iframe restrictions
-            document.execCommand('copy', false, folder);
+            copyTextToClipboard(folder); // Use the new helper function
             // Provide visual feedback
             copyFolderButton.textContent = 'Copied!';
             setTimeout(() => {
@@ -164,7 +186,7 @@ function openGlbViewer(glbPath, folder, filename) {
     };
 
     viewerCopyFolderButton.onclick = () => {
-        document.execCommand('copy', false, folder); // Using execCommand for clipboard due to iframe restrictions
+        copyTextToClipboard(folder); // Use the new helper function
         viewerCopyFolderButton.textContent = 'Copied!';
         setTimeout(() => {
             viewerCopyFolderButton.textContent = 'Copy Folder';
