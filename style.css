@@ -104,7 +104,7 @@ header h1 {
 
 /* Card styles - Base for all cards (now only GLB) */
 .texture-card {
-    background: rgba(255, 255, 255, 0.05); /* Original base card background */
+    background: rgba(255, 255, 255, 0.05);
     border-radius: 16px;
     cursor: pointer;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -240,9 +240,9 @@ header h1 {
 }
 
 
-/* --- GLB Viewer Modal Styles --- */
+/* --- Base Modal Styles (for both warning and GLB viewer) --- */
 .modal {
-    display: none; /* Hidden by default */
+    display: flex; /* Hidden by default, will be set to flex by JS to show */
     position: fixed; /* Stay in place */
     z-index: 1000; /* Sit on top */
     left: 0;
@@ -250,12 +250,19 @@ header h1 {
     width: 100%; /* Full width */
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
-    background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+    background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity for overlay */
     backdrop-filter: blur(8px); /* Frosted glass effect */
     -webkit-backdrop-filter: blur(8px); /* Safari support */
-    display: flex; /* Use flexbox for centering */
     justify-content: center; /* Center horizontally */
     align-items: center; /* Center vertically */
+    opacity: 0; /* Start hidden for fade-in effect */
+    visibility: hidden; /* Hide from screen readers when not active */
+    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+}
+
+.modal.active {
+    opacity: 1;
+    visibility: visible;
 }
 
 .modal-content {
@@ -266,12 +273,18 @@ header h1 {
     padding: 2rem;
     position: relative;
     width: 90%;
-    max-width: 900px; /* Max width for the modal content */
+    max-height: 90vh; /* Limit height to prevent overflow on smaller screens */
+    overflow-y: auto; /* Enable scrolling for content if it overflows */
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    max-height: 90vh; /* Limit height to prevent overflow on smaller screens */
-    overflow-y: auto; /* Enable scrolling for content if it overflows */
+}
+
+/* --- GLB Viewer Modal Specific Styles (larger size) --- */
+.glb-viewer-modal-content {
+    max-width: 1200px; /* Make the GLB viewer modal significantly wider */
+    width: 95%; /* Adjust width for larger screens */
+    max-height: 95vh; /* Allow it to take up more vertical space */
 }
 
 .close-button {
@@ -312,8 +325,8 @@ header h1 {
 
 .glb-viewer-container {
     width: 100%;
-    /* Aspect ratio for the 3D viewer */
-    padding-top: 56.25%; /* 16:9 Aspect Ratio (height / width * 100) */
+    /* Aspect ratio for the 3D viewer (approx. 16:9, adjusted for a bit more height) */
+    padding-top: 60%; /* This is height / width * 100. Adjust for a taller viewer */
     position: relative;
     background: rgba(255, 255, 255, 0.03); /* Placeholder background */
     border-radius: 8px;
@@ -358,6 +371,40 @@ model-viewer {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+/* --- Initial Warning Modal Specific Styles --- */
+.initial-warning-modal {
+    z-index: 1001; /* Higher z-index than GLB viewer modal */
+    /* By default, this will be hidden by JS and shown with .modal.active */
+}
+
+.warning-content {
+    background: #2a2a2a; /* Slightly different background for warning */
+    border-color: #fd79a8; /* Pink border for warning */
+    max-width: 600px; /* Warning message not as wide as viewer */
+    text-align: center;
+    padding: 2.5rem;
+    gap: 1.2rem;
+}
+
+.warning-title {
+    font-size: 2rem;
+    color: #fd79a8;
+    margin-bottom: 1rem;
+}
+
+.warning-message {
+    font-size: 1.1rem;
+    color: #e0e0e0;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+}
+
+.warning-content .search-button { /* Reusing search-button style for "Got It!" */
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    padding: 0.9rem 2rem;
+}
+
 
 /* Responsive design */
 @media (max-width: 768px) {
@@ -391,6 +438,10 @@ model-viewer {
         gap: 1rem;
     }
 
+    .glb-viewer-modal-content {
+        max-width: 95%; /* Adjust for smaller screens */
+    }
+
     .glb-viewer-header h2 {
         font-size: 1.5rem;
     }
@@ -407,6 +458,19 @@ model-viewer {
     .glb-viewer-actions .copy-folder-button {
         width: 100%;
         max-width: unset; /* Remove max-width for full width */
+    }
+
+    .warning-content {
+        max-width: 90%;
+        padding: 1.5rem;
+    }
+
+    .warning-title {
+        font-size: 1.6rem;
+    }
+
+    .warning-message {
+        font-size: 1rem;
     }
 }
 

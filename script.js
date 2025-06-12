@@ -1,13 +1,19 @@
 // DOM Elements
 let searchInput;
 let allCards = []; // Initialize as an empty array to store card elements
+
+// GLB Viewer Modal elements
 let glbViewerModal;
 let modelViewerInstance;
 let viewerFilenameDisplay;
 let viewerFolderNumberDisplay;
 let viewerDownloadButton;
 let viewerCopyFolderButton;
-let closeButton;
+let glbViewerCloseButton; // Renamed for clarity
+
+// Initial Warning Modal elements
+let initialWarningModal;
+let warningCloseButton;
 
 // Card Creation
 function createAndAppendCard(folder, filename, type) {
@@ -165,41 +171,62 @@ function openGlbViewer(glbPath, folder, filename) {
         }, 1000);
     };
 
-    glbViewerModal.style.display = 'flex'; // Show the modal using flexbox
+    // Show the GLB viewer modal
+    glbViewerModal.classList.add('active'); // Use class to toggle visibility and transition
     // Ensure model-viewer updates its rendering once visible
-    // This method can sometimes be called before model-viewer is fully ready.
-    // A slight delay or waiting for a 'load' event on model-viewer might be more robust
     if (modelViewerInstance.requestUpdate) {
+        // This method can sometimes be called before model-viewer is fully ready.
+        // A slight delay or waiting for a 'load' event on model-viewer might be more robust
         modelViewerInstance.requestUpdate(); 
     }
 }
 
 function closeGlbViewer() {
-    glbViewerModal.style.display = 'none'; // Hide the modal
+    glbViewerModal.classList.remove('active'); // Hide the modal
     // Optionally pause or reset the model-viewer
     // modelViewerInstance.pause(); // If you want to stop animation when closing
     // modelViewerInstance.src = ''; // Clear the model source to free up memory to prevent issues
+}
+
+// Function to show the initial warning modal
+function showInitialWarning() {
+    initialWarningModal.classList.add('active');
+}
+
+// Function to hide the initial warning modal
+function hideInitialWarning() {
+    initialWarningModal.classList.remove('active');
 }
 
 
 // Initialization
 async function initializeGallery() {
     try {
-        // Get DOM elements for the viewer
+        // Get DOM elements for the GLB viewer modal
         glbViewerModal = document.getElementById('glb-viewer-modal');
         modelViewerInstance = document.getElementById('model-viewer-instance');
         viewerFilenameDisplay = document.getElementById('viewer-filename');
         viewerFolderNumberDisplay = document.getElementById('viewer-folder-number');
         viewerDownloadButton = document.getElementById('viewer-download-button');
         viewerCopyFolderButton = document.getElementById('viewer-copy-folder-button');
-        closeButton = glbViewerModal.querySelector('.close-button');
+        glbViewerCloseButton = glbViewerModal.querySelector('.close-button'); // Corrected variable name
 
-        // Add event listener to the close button
-        closeButton.onclick = closeGlbViewer;
-        // Close modal if clicking outside the content (optional, but good UX)
+        // Get DOM elements for the initial warning modal
+        initialWarningModal = document.getElementById('initial-warning-modal');
+        warningCloseButton = document.getElementById('warning-close-button');
+
+        // Add event listener to the GLB viewer close button
+        glbViewerCloseButton.onclick = closeGlbViewer;
+
+        // Add event listener to the initial warning close button
+        warningCloseButton.onclick = hideInitialWarning;
+
+        // Close any modal if clicking outside its content (for both modals)
         window.onclick = (event) => {
             if (event.target === glbViewerModal) {
                 closeGlbViewer();
+            } else if (event.target === initialWarningModal) {
+                hideInitialWarning();
             }
         };
 
@@ -234,6 +261,9 @@ async function initializeGallery() {
 
         // `allCards` is populated in `createAndAppendCard`
         // No need to querySelectorAll here as it's built incrementally
+
+        // Show the initial warning modal once the gallery is initialized
+        showInitialWarning();
 
     } catch (error) {
         console.error('Error initializing gallery:', error);

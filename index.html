@@ -6,6 +6,7 @@
     <title>Venge - GLB Gallery</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google's Model-Viewer for seamless GLB display -->
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
 </head>
 <body>
@@ -20,17 +21,31 @@
 
     <main class="container">
         <div id="texture-grid">
-            </div>
+            <!-- GLB cards will be dynamically loaded here by JavaScript -->
+        </div>
     </main>
 
-    <div id="glb-viewer-modal" class="modal">
-        <div class="modal-content">
+    <!-- Initial Warning Modal Structure -->
+    <div id="initial-warning-modal" class="modal initial-warning-modal">
+        <div class="modal-content warning-content">
+            <h2 class="warning-title">Important Note on Models</h2>
+            <p class="warning-message">
+                Please be aware that not all GLB files may display a visible 3D model. Some files might primarily contain data such as animations, lighting information, or other non-renderable assets. If a model appears blank, it might contain such supplementary data rather than a complete visual mesh.
+            </p>
+            <button id="warning-close-button" class="search-button">Got It!</button>
+        </div>
+    </div>
+
+    <!-- GLB Viewer Modal Structure -->
+    <div id="glb-viewer-modal" class="modal glb-viewer-modal">
+        <div class="modal-content glb-viewer-modal-content">
             <span class="close-button">&times;</span>
             <div class="glb-viewer-header">
                 <h2 id="viewer-filename"></h2>
                 <div id="viewer-folder-info">Folder: <span id="viewer-folder-number"></span></div>
             </div>
             <div class="glb-viewer-container">
+                <!-- The model-viewer component will be loaded here -->
                 <model-viewer id="model-viewer-instance"
                               alt="3D model"
                               ar
