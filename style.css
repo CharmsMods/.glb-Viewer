@@ -79,6 +79,17 @@ header h1 {
     background: linear-gradient(135deg, #fd79a8, #6c5ce7);
 }
 
+/* Instructional text styles */
+.instruction-text {
+    margin-top: 1.5rem; /* Space from search bar */
+    font-size: 1.1rem;
+    color: #a0a0a0; /* Slightly lighter color for informational text */
+    font-style: italic; /* Optional: italicize to distinguish */
+    text-shadow: 0 0 5px rgba(108, 92, 231, 0.1); /* Subtle shadow */
+    padding-bottom: 1rem; /* Space below text before content starts */
+}
+
+
 /* Container styles */
 .container {
     width: 100%;
