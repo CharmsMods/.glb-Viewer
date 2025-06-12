@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venge - GLB Gallery</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1>GLB Model Repository</h1>
+        <div class="search-container">
+            <input type="text" id="texture-search" placeholder="Search GLB models..." class="search-input">
+            <button id="search-button" class="search-button">Search</button>
+            <button id="clear-search-button" class="search-button clear-button">Clear Search</button>
+        </div>
+    </header>
+
+    <main class="container">
+        <div id="texture-grid">
+            </div>
+    </main>
+
+    <div id="glb-viewer-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-button">&times;</span>
+            <div class="glb-viewer-header">
+                <h2 id="viewer-filename"></h2>
+                <div id="viewer-folder-info">Folder: <span id="viewer-folder-number"></span></div>
+            </div>
+            <div class="glb-viewer-container">
+                <model-viewer id="model-viewer-instance"
+                              alt="3D model"
+                              ar
+                              ar-modes="webxr scene-viewer quick-look"
+                              environment-image="neutral"
+                              shadow-intensity="1"
+                              camera-controls
+                              touch-action="pan-y"
+                              disable-zoom
+                              min-field-of-view="10deg"
+                              max-field-of-view="60deg"
+                              loading="eager">
+                </model-viewer>
+            </div>
+            <div class="glb-viewer-actions">
+                <button id="viewer-download-button" class="download-button">Download GLB</button>
+                <button id="viewer-copy-folder-button" class="copy-folder-button">Copy Folder</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

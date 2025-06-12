@@ -1,0 +1,459 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background: #1a1a1a;
+    color: #ffffff;
+    line-height: 1.6;
+}
+
+/* Header styles */
+header {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2rem;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+    font-size: 2.4rem;
+    margin-bottom: 0.5rem;
+    color: #ffffff;
+    text-shadow: 0 0 15px rgba(108, 92, 231, 0.2);
+}
+
+/* Search bar styles */
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+    padding: 0 1rem;
+}
+
+.search-input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.8rem 1rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.05);
+    color: #ffffff;
+    font-size: 1rem;
+    outline: none;
+}
+
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-input:focus {
+    border-color: #6c5ce7;
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.search-button {
+    padding: 0.8rem 1.5rem;
+    background: linear-gradient(135deg, #6c5ce7, #fd79a8);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.search-button:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-button.clear-button {
+    background: linear-gradient(135deg, #fd79a8, #6c5ce7);
+}
+
+/* Container styles */
+.container {
+    width: 100%;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 2rem;
+    background: #1a1a1a;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Grid layout */
+#texture-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+    padding: 2rem;
+    min-height: 100vh;
+    background: rgba(255, 255, 255, 0.02);
+    justify-content: center;
+    max-width: 100%;
+}
+
+/* Card styles - Base for all cards (now only GLB) */
+.texture-card {
+    background: rgba(255, 255, 255, 0.05); /* Original base card background */
+    border-radius: 16px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 380px;
+    height: auto; /* Let content dictate height, similar to mp3 cards */
+    min-height: 220px; /* Minimum height for consistent card size */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center items horizontally within the card */
+    justify-content: space-between; /* Push elements to top/bottom, space in between */
+    padding: 1.5rem; /* Overall internal padding for the card */
+    position: relative;
+    transition: all 0.3s ease;
+    margin: 0 auto;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    overflow: hidden; /* Re-enable overflow hidden for the main card */
+}
+
+.texture-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+    border-color: rgba(108, 92, 231, 0.3);
+}
+
+/* GLB-specific card styling */
+.texture-card.glb {
+    background: rgba(60, 48, 128, 0.2); /* A custom purple tint for GLB cards */
+    border: 1px solid rgba(108, 92, 231, 0.4);
+}
+
+/* Icon for GLB cards (repurposing media-icon for 3D cube) */
+.media-icon {
+    font-size: 3.5rem; /* Slightly larger icon */
+    color: #6c5ce7;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: 1rem; /* More space below icon */
+    flex-shrink: 0;
+}
+
+.media-icon:hover {
+    transform: scale(1.1);
+    color: #fd79a8;
+}
+
+/* Style for the GLB filename displayed prominently on the card */
+.glb-filename-display {
+    font-size: 1.1rem; /* Larger font */
+    color: #ffffff; /* White color for good contrast */
+    font-weight: 600; /* Bolder font */
+    text-align: center;
+    word-break: break-word; /* Allow long words to break */
+    white-space: normal; /* Ensure text wraps */
+    padding: 0 0.5rem; /* Horizontal padding */
+    flex-grow: 1; /* Allow it to take up available vertical space */
+    display: flex; /* Use flex to center text vertically if it's short */
+    align-items: center;
+    justify-content: center;
+    line-height: 1.4; /* Better line spacing for readability */
+    max-height: 5.6em; /* Max 4 lines (1.4em * 4 lines) before truncation */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    margin-bottom: 0.75rem; /* Space below filename */
+}
+
+/* Folder Number Button (direct child of .texture-card.glb) */
+.folder-number-button {
+    background: rgba(253, 121, 168, 0.2);
+    border: 1px solid rgba(253, 121, 168, 0.4);
+    color: #ffffff;
+    padding: 0.5rem 0.8rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80%; /* Don't let it stretch full width */
+    width: auto; /* Shrink to content if max-width permits */
+    margin-bottom: 1.5rem; /* Space before the buttons wrapper */
+    flex-shrink: 0;
+}
+
+.folder-number-button:hover {
+    background: rgba(253, 121, 168, 0.3);
+    border-color: rgba(253, 121, 168, 0.6);
+    transform: translateY(-1px);
+}
+
+/* Wrapper for action buttons (direct child of .texture-card.glb) */
+.glb-buttons-wrapper {
+    display: flex;
+    flex-direction: column; /* Stack download and copy buttons vertically */
+    gap: 0.5rem;
+    width: 90%; /* Control button width relative to card */
+    margin-top: auto; /* Push wrapper to the bottom of the card */
+    align-items: center; /* Center buttons within wrapper */
+    flex-shrink: 0;
+}
+
+/* Download and Copy Folder buttons within the card */
+.glb-buttons-wrapper .download-button,
+.glb-buttons-wrapper .copy-folder-button {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    padding: 0.6rem 1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    width: 100%; /* Make them fill their wrapper */
+    transition: all 0.2s ease;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.glb-buttons-wrapper .download-button:hover,
+.glb-buttons-wrapper .copy-folder-button:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.4);
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+/* --- GLB Viewer Modal Styles --- */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0, 0, 0, 0.8); /* Black w/ opacity */
+    backdrop-filter: blur(8px); /* Frosted glass effect */
+    -webkit-backdrop-filter: blur(8px); /* Safari support */
+    display: flex; /* Use flexbox for centering */
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.modal-content {
+    background: #1a1a1a;
+    border: 1px solid rgba(108, 92, 231, 0.4);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    padding: 2rem;
+    position: relative;
+    width: 90%;
+    max-width: 900px; /* Max width for the modal content */
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    max-height: 90vh; /* Limit height to prevent overflow on smaller screens */
+    overflow-y: auto; /* Enable scrolling for content if it overflows */
+}
+
+.close-button {
+    color: #aaa;
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    font-size: 2.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #fd79a8;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.glb-viewer-header {
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.glb-viewer-header h2 {
+    font-size: 1.8rem;
+    color: #ffffff;
+    margin-bottom: 0.5rem;
+    word-break: break-all; /* Allow long filenames to break */
+}
+
+.glb-viewer-header #viewer-folder-info {
+    font-size: 1.1rem;
+    color: #6c5ce7;
+    font-weight: 500;
+}
+
+.glb-viewer-container {
+    width: 100%;
+    /* Aspect ratio for the 3D viewer */
+    padding-top: 56.25%; /* 16:9 Aspect Ratio (height / width * 100) */
+    position: relative;
+    background: rgba(255, 255, 255, 0.03); /* Placeholder background */
+    border-radius: 8px;
+    overflow: hidden; /* Ensure model-viewer respects border-radius */
+}
+
+model-viewer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 8px; /* Match container border-radius */
+}
+
+.glb-viewer-actions {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1rem;
+}
+
+.glb-viewer-actions .download-button,
+.glb-viewer-actions .copy-folder-button {
+    background: linear-gradient(135deg, #6c5ce7, #fd79a8);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    padding: 0.8rem 1.8rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    flex-grow: 1; /* Allow buttons to grow and fill space */
+    max-width: 250px; /* Limit individual button width */
+}
+
+.glb-viewer-actions .download-button:hover,
+.glb-viewer-actions .copy-folder-button:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+/* Responsive design */
+@media (max-width: 768px) {
+    #texture-grid {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+        gap: 1.5rem;
+    }
+
+    .texture-card {
+        max-width: 100%;
+        margin: 0;
+        min-height: 200px;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    header {
+        padding: 1.5rem;
+    }
+
+    header h1 {
+        font-size: 2rem;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 1.5rem;
+        gap: 1rem;
+    }
+
+    .glb-viewer-header h2 {
+        font-size: 1.5rem;
+    }
+
+    .glb-viewer-header #viewer-folder-info {
+        font-size: 1rem;
+    }
+
+    .glb-viewer-actions {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+    }
+
+    .glb-viewer-actions .download-button,
+    .glb-viewer-actions .copy-folder-button {
+        width: 100%;
+        max-width: unset; /* Remove max-width for full width */
+    }
+}
+
+@media (max-width: 480px) {
+    .search-container {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .search-input {
+        max-width: 100%;
+    }
+
+    .texture-card {
+        padding: 1rem; /* Smaller padding for very small cards */
+    }
+
+    .media-icon {
+        font-size: 3rem; /* Slightly smaller icon on very small screens */
+    }
+
+    .glb-filename-display {
+        font-size: 0.95rem; /* Slightly smaller text on very small screens */
+        max-height: 4.2em; /* Adjusted max lines for smaller font (1.4em * 3 lines) */
+        -webkit-line-clamp: 3;
+        margin-bottom: 0.5rem;
+    }
+
+    .folder-number-button {
+        font-size: 0.8rem;
+        padding: 0.4rem 0.6rem;
+        margin-bottom: 1rem;
+    }
+
+    .glb-buttons-wrapper {
+        width: 100%; /* Make buttons fill the card */
+    }
+
+    .glb-buttons-wrapper .download-button,
+    .glb-buttons-wrapper .copy-folder-button {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.8rem;
+    }
+
+    .close-button {
+        font-size: 1.8rem;
+        top: 0.8rem;
+        right: 1rem;
+    }
+}
